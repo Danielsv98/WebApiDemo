@@ -22,70 +22,65 @@ namespace WebApiDemo.Controllers
         }
 
         [HttpGet("{id}/settings")]
-        public HttpResponseMessage GetSettings(int id)
+        public IActionResult GetSettings(int id)
         {
 			try
 			{
 				var settings = Widgets.GetSettings(id);
-				var jsonResult = JsonConvert.SerializeObject(settings);
-
-				var response = new HttpResponseMessage(HttpStatusCode.OK);
-				response.Content = new StringContent(jsonResult, Encoding.UTF8, "application/json");
-
-				return response;
+				return new JsonResult(settings);
 			}
 			catch (Exception ex)
 			{
-				return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+				return StatusCode(500);
 			}
         }
 
 		// Add parameters to url when they are required. for example (?name=...&value=...)
         [HttpPost("{id}/settings/{name}/{value}")]	
-		public HttpResponseMessage InsertSettings(int id, string name, string value)
+		public IActionResult InsertSettings(int id, string name, string value)
 		{
 			try
 			{
 				Widgets.InsertSettings(name, value, id);
 
-				return new HttpResponseMessage(HttpStatusCode.OK);
+				return Ok();
 			}
 			catch (Exception ex)
 			{
-				return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+				return StatusCode(500);
 			}
 		}
 
 		[HttpPut("{id}/settings")]
-        public HttpResponseMessage Put(int id, [FromBody]WidgetSettingModel setting)
+        public IActionResult Put(int id, [FromBody]WidgetSettingModel setting)
         {
 			try
 			{
 				if (setting == null)
-					return new HttpResponseMessage(HttpStatusCode.BadRequest);
+					return BadRequest();
 
 				Widgets.UpdateSetting(setting.SettingName, setting.SettingValue, id);
 
-				return new HttpResponseMessage(HttpStatusCode.OK);
+				return Ok();
 			}
 			catch (Exception ex) {
-				return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+				return StatusCode(500);
 			}
 		}
 
 		[HttpDelete("{id}/settings")]
-        public HttpResponseMessage DeleteSettings(int id)
+        public IActionResult DeleteSettings(int id)
         {
 			try
 			{
 				Widgets.DeleteSettings(id);
 
-				return new HttpResponseMessage(HttpStatusCode.OK);
+				return Ok();
 			}
 			catch (Exception ex)
 			{
-				return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+				return StatusCode(500);
 			}
-        }
+		}
     }
 }
