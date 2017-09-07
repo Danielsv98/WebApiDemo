@@ -5,42 +5,87 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApiDemo.Models;
 using WebApiDemo.DataProvider;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace WebApiDemo.Controllers
 {
     [Route("api/[controller]")]
     public class WidgetController : Controller
     {
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+         [HttpGet]
+        public string Get()
         {
-            return new string[] { "value1", "value2" };
+            return "This is the Demo Web API";
         }
 
-        // GET api/values/5
-        [HttpGet("settings/{id}")]
-        public List<WidgetSettingModel> GetSettings(int id)
+        [HttpGet("{id}/settings")]
+        public HttpResponseMessage GetSettings(int id)
         {
-			return Widgets.GetSettings(id);
+			try
+			{
+				var settings = Widgets.GetSettings(id);
+				var jsonResult = JsonConvert.SerializeObject(settings);
+
+				var response = new HttpResponseMessage(HttpStatusCode.OK);
+				response.Content = new StringContent(jsonResult, Encoding.UTF8, "application/json");
+
+				return response;
+			}
+			catch (Exception ex)
+			{
+				return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+			}
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
+		// Add parameters to url when they are required. for example (?name=...&value=...)
+        [HttpPost("{id}/settings/{name}/{value}")]	
+		public HttpResponseMessage InsertSettings(int id, string name, string value)
+		{
+			try
+			{
+				Widgets.InsertSettings(name, value, id);
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+				return new HttpResponseMessage(HttpStatusCode.OK);
+			}
+			catch (Exception ex)
+			{
+				return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+			}
+		}
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+		[HttpPut("{id}/settings")]
+        public HttpResponseMessage Put(int id, [FromBody]WidgetSettingModel setting)
         {
+			try
+			{
+				if (setting == null)
+					return new HttpResponseMessage(HttpStatusCode.BadRequest);
+
+				Widgets.UpdateSetting(setting.SettingName, setting.SettingValue, id);
+
+				return new HttpResponseMessage(HttpStatusCode.OK);
+			}
+			catch (Exception ex) {
+				return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+			}
+		}
+
+		[HttpDelete("{id}/settings")]
+        public HttpResponseMessage DeleteSettings(int id)
+        {
+			try
+			{
+				Widgets.DeleteSettings(id);
+
+				return new HttpResponseMessage(HttpStatusCode.OK);
+			}
+			catch (Exception ex)
+			{
+				return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+			}
         }
     }
 }
