@@ -36,12 +36,18 @@ namespace WebApiDemo.Controllers
         }
 
 		// Add parameters to url when they are required. for example (?name=...&value=...)
-        [HttpPost("{id}/settings/{name}/{value}")]	
-		public IActionResult InsertSettings(int id, string name, string value)
+		[HttpPost("{id}/settings")]
+		public IActionResult InsertSettings(int id, [FromBody]WidgetSettingModel[] settings)
 		{
 			try
 			{
-				Widgets.InsertSettings(name, value, id);
+				if (settings == null || settings.Length == 0) 
+					return BadRequest();
+
+				for (var i = 0; i < settings.Length; i++)
+				{
+					Widgets.InsertSettings(settings[i].SettingName, settings[i].SettingValue, id);
+				}
 
 				return Ok();
 			}
@@ -51,7 +57,33 @@ namespace WebApiDemo.Controllers
 			}
 		}
 
+		// Add parameters to url when they are required. for example (?name=...&value=...)
 		[HttpPut("{id}/settings")]
+		public IActionResult UpdateSettings(int id, [FromBody]WidgetSettingModel[] settings)
+		{
+			try
+			{
+				if (settings == null)
+				{
+					Widgets.DeleteSettings(id);
+
+					//Transanctions
+
+					for (var i = 0; i < settings.Length; i++)
+					{
+						Widgets.InsertSettings(settings[i].SettingName, settings[i].SettingValue, id);
+					}
+				}
+
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500);
+			}
+		}
+
+		[HttpPut("{id}/setting")]
         public IActionResult Put(int id, [FromBody]WidgetSettingModel setting)
         {
 			try
