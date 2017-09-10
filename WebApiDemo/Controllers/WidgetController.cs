@@ -9,13 +9,34 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using WebApiDemo.Configuration;
+using Microsoft.Extensions.Options;
+using WebApiDemo.DataProvider.Interfaces;
 
 namespace WebApiDemo.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
     public class WidgetController : Controller
     {
-         [HttpGet]
+		#region Members
+
+		private WebApiSettings _settings;
+		private IWidgets _widgets;
+
+		#endregion
+
+		#region Constructors
+
+		public WidgetController(IOptions<WebApiSettings> settings, IWidgets widgets)
+		{
+			_settings = settings.Value;
+			_widgets = widgets;
+			_widgets.ConnectionString = _settings.ConnectionString;
+		}
+
+		#endregion
+
+		[HttpGet]
         public string Get()
         {
             return "This is the Demo Web API";
@@ -26,7 +47,8 @@ namespace WebApiDemo.Controllers
         {
 			try
 			{
-				var settings = Widgets.GetSettings(id);
+				var settings = _widgets.GetSettings(id);
+
 				return new JsonResult(settings);
 			}
 			catch (Exception ex)
@@ -46,7 +68,7 @@ namespace WebApiDemo.Controllers
 
 				for (var i = 0; i < settings.Length; i++)
 				{
-					Widgets.InsertSettings(settings[i].SettingName, settings[i].SettingValue, id);
+					_widgets.InsertSettings(settings[i].SettingName, settings[i].SettingValue, id);
 				}
 
 				return Ok();
@@ -65,13 +87,13 @@ namespace WebApiDemo.Controllers
 			{
 				if (settings != null)
 				{
-					Widgets.DeleteSettings(id);
+					_widgets.DeleteSettings(id);
 
 					//Transanctions
 
 					for (var i = 0; i < settings.Length; i++)
 					{
-						Widgets.InsertSettings(settings[i].SettingName, settings[i].SettingValue, id);
+						_widgets.InsertSettings(settings[i].SettingName, settings[i].SettingValue, id);
 					}
 				}
 
@@ -91,7 +113,7 @@ namespace WebApiDemo.Controllers
 				if (setting == null)
 					return BadRequest();
 
-				Widgets.UpdateSetting(setting.SettingName, setting.SettingValue, id);
+				_widgets.UpdateSetting(setting.SettingName, setting.SettingValue, id);
 
 				return Ok();
 			}
@@ -105,7 +127,7 @@ namespace WebApiDemo.Controllers
         {
 			try
 			{
-				Widgets.DeleteSettings(id);
+				_widgets.DeleteSettings(id);
 
 				return Ok();
 			}

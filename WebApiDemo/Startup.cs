@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WebApiDemo.Configuration;
+using WebApiDemo.DataProvider.Interfaces;
+using WebApiDemo.DataProvider;
 
 namespace WebApiDemo
 {
@@ -27,6 +30,9 @@ namespace WebApiDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+			// Adding our configuration
+			services.Configure<WebApiSettings>(Configuration.GetSection("WebApiSettings"));
+
 			// Allow CORS
 			services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
 			{
@@ -37,10 +43,13 @@ namespace WebApiDemo
 
 			// Add framework services.
 			services.AddMvc();
-        }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+			// Add application services.
+			services.AddTransient<IWidgets, Widgets>();
+		}
+
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
 			// Use this policy for any request
 			app.UseCors("CorsPolicy");

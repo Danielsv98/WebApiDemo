@@ -9,3 +9,4 @@
 /WebApiDemo.DataProvider/obj
 /WebApiDemo.Models/bin/Debug/netcoreapp1.1
 /WebApiDemo.Models/obj
+/WebApiDemo/appsettings.*.json

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using WebApiDemo.DataProvider.Interfaces;
 using WebApiDemo.Models;
 
 namespace WebApiDemo.DataProvider
@@ -9,22 +10,16 @@ namespace WebApiDemo.DataProvider
 	/// <summary>
 	/// Use ADO.NET to retrieve data from database
 	/// </summary>
-    public static class Widgets
-    {
-		public static string ConnectionString
-		{
-			get
-			{
-				return @"Server=DESKTOP-D2897OH\SQLEXPRESS;Database=Demo;Trusted_Connection=Yes;";
-			}
-		}
+    public class Widgets : IWidgets
+	{
+		public string ConnectionString { get; set; }
 
 		/// <summary>
 		/// Retrieve widget settings
 		/// </summary>
 		/// <param name="widgetId"></param>
 		/// <returns></returns>
-		public static List<WidgetSettingModel> GetSettings (int widgetId) {
+		public List<WidgetSettingModel> GetSettings (int widgetId) {
 
 			List<WidgetSettingModel> settings = null;
 
@@ -77,7 +72,7 @@ namespace WebApiDemo.DataProvider
 		/// </summary>
 		/// <param name="widgetId"></param>
 		/// <returns></returns>
-		public static void DeleteSettings (int widgetId)
+		public void DeleteSettings (int widgetId)
 		{
 			try
 			{
@@ -106,7 +101,7 @@ namespace WebApiDemo.DataProvider
 		/// </summary>
 		/// <param name="widgetId"></param>
 		/// <returns></returns>
-		public static void InsertSettings(string settingName, string settingValue, int widgetId)
+		public void InsertSettings(string settingName, string settingValue, int widgetId)
 		{
 
 			try
@@ -138,7 +133,7 @@ namespace WebApiDemo.DataProvider
 		/// </summary>
 		/// <param name="widgetId"></param>
 		/// <returns></returns>
-		public static void UpdateSetting(string settingName, string settingValue, int widgetId)
+		public void UpdateSetting(string settingName, string settingValue, int widgetId)
 		{
 			try
 			{
@@ -163,6 +158,5 @@ namespace WebApiDemo.DataProvider
 				throw new Exception("Database Error", ex);
 			}
 		}
-
 	}
 }
