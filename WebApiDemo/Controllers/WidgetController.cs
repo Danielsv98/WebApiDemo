@@ -63,7 +63,7 @@ namespace WebApiDemo.Controllers
 		{
 			try
 			{
-				if (settings == null)
+				if (settings != null)
 				{
 					Widgets.DeleteSettings(id);
 
