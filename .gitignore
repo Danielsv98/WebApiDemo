@@ -13,3 +13,5 @@
 /WebApiDemo/bin
 /WebApiDemo/Properties/PublishProfiles
 /WebApiDemo/WebApiDemo.csproj.user
+/WebApiDemo.UnitTest/bin/Debug/netcoreapp2.0
+/WebApiDemo.UnitTest/obj

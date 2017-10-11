@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiDemo", "WebApiDemo\WebApiDemo.csproj", "{794A8C07-37F9-4A43-A777-8DAE9739144F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiDemo", "WebApiDemo\WebApiDemo.csproj", "{794A8C07-37F9-4A43-A777-8DAE9739144F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiDemo.Models", "WebApiDemo.Models\WebApiDemo.Models.csproj", "{0707B28A-23AD-4E7A-B84C-A5FD5C627924}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiDemo.Models", "WebApiDemo.Models\WebApiDemo.Models.csproj", "{0707B28A-23AD-4E7A-B84C-A5FD5C627924}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiDemo.DataProvider", "WebApiDemo.DataProvider\WebApiDemo.DataProvider.csproj", "{282D4128-1AA1-4B9A-9A5F-26CC9DE53CD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiDemo.DataProvider", "WebApiDemo.DataProvider\WebApiDemo.DataProvider.csproj", "{282D4128-1AA1-4B9A-9A5F-26CC9DE53CD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiDemo.UnitTest", "WebApiDemo.UnitTest\WebApiDemo.UnitTest.csproj", "{8FB69221-FF5A-4F95-B59B-7CCD09E327D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{282D4128-1AA1-4B9A-9A5F-26CC9DE53CD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{282D4128-1AA1-4B9A-9A5F-26CC9DE53CD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{282D4128-1AA1-4B9A-9A5F-26CC9DE53CD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FB69221-FF5A-4F95-B59B-7CCD09E327D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FB69221-FF5A-4F95-B59B-7CCD09E327D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FB69221-FF5A-4F95-B59B-7CCD09E327D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FB69221-FF5A-4F95-B59B-7CCD09E327D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
